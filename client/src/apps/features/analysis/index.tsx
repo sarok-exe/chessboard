@@ -21,7 +21,7 @@ function App() {
             className={styles.wrapper}
         >
             <Routes>
-                <Route path="/analysis" element={<Analysis/>} />
+                <Route path="*" element={<Analysis/>} />
             </Routes>
         </PageWrapper>
     </BrowserRouter>;
