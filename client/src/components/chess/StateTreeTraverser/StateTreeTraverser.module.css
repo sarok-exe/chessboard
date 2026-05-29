@@ -1,0 +1,43 @@
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 6px 8px;
+    z-index: 2;
+
+    background-color: var(--ui-shade-3);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+}
+
+.controlBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.controlBtn:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.controlBtn svg {
+    width: 50px;
+    height: 50px;
+}
+
+@media (max-width: 350px) {
+    .controlBtn svg {
+        width: 30px !important;
+        height: 30px !important;
+    }
+}
+
+.autoplayContainer {
+    display: flex;
+    align-items: center;
+}

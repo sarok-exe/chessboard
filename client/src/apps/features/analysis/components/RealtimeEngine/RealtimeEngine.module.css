@@ -1,0 +1,28 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 12px;
+    padding-top: 8px;
+
+    border-radius: var(--card-radius);
+    background-color: var(--ui-shade-2);
+    border: 1px solid var(--card-border);
+}
+
+.depth {
+    display: flex;
+    gap: 5px;
+
+    color: gray;
+    font-size: 0.7rem;
+}
+
+.engineLineSeparator {
+    margin: 0;
+    width: 100%;
+    height: 1px;
+
+    border-width: 1px 0 0 0;
+    border-color: #a5a5a5;
+}

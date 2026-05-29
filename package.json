@@ -1,0 +1,17 @@
+{
+    "workspaces": [
+        "./shared",
+        "./server",
+        "./client"
+    ],
+    "scripts": {
+        "start": "node server/dist/index.js",
+        "build": "npm run build --workspaces --if-present",
+        "check": "npm run check -w server -w client",
+        "bbuild": "npm run build -w shared && npm run build -w server",
+        "dev": "npm run build && npm start"
+    },
+    "devDependencies": {
+        "typescript": "^5.4.5"
+    }
+}

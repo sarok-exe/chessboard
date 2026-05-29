@@ -1,0 +1,245 @@
+import React, { useRef, useCallback, useEffect } from "react";
+import { Chess } from "chess.js";
+import { Chessboard as CmChessboard, COLOR, INPUT_EVENT_TYPE } from "@/lib/cm-chessboard/Chessboard.js";
+import { Markers, MARKER_TYPE } from "@/lib/cm-chessboard/extensions/markers/Markers.js";
+import { Arrows, ARROW_TYPE } from "@/lib/cm-chessboard/extensions/arrows/Arrows.js";
+import { defaultRootNode } from "shared/constants/utils";
+import PlayerProfile from "@/components/chess/PlayerProfile";
+import EvaluationBar from "../EvaluationBar";
+import BoardProps from "./BoardProps";
+import * as styles from "./Board.module.css";
+
+function findKingSquare(fen: string, color: "w" | "b"): string | null {
+    const game = new Chess(fen);
+    const board = game.board();
+    for (let r = 0; r < 8; r++) {
+        for (let f = 0; f < 8; f++) {
+            const p = board[r][f];
+            if (p && p.type === "k" && p.color === color) {
+                return "abcdefgh"[f] + (8 - r);
+            }
+        }
+    }
+    return null;
+}
+
+function boardTurn(fen: string): "w" | "b" {
+    return fen.split(" ")[1] as "w" | "b";
+}
+
+function Board({
+    className,
+    style,
+    profileClassName,
+    profileStyle,
+    whiteProfile,
+    blackProfile,
+    theme,
+    piecesDraggable = true,
+    node = defaultRootNode,
+    flipped,
+    evaluation,
+    arrows,
+    enableClassifications = true,
+    onAddMove
+}: BoardProps) {
+    const boardRef = useRef<HTMLDivElement>(null);
+    const boardInstance = useRef<CmChessboard | null>(null);
+    const nodeRef = useRef(node);
+    nodeRef.current = node;
+    const onAddMoveRef = useRef(onAddMove);
+    onAddMoveRef.current = onAddMove;
+
+    const moveHandler = useCallback((event: any) => {
+        const node = nodeRef.current;
+        switch (event.type) {
+            case INPUT_EVENT_TYPE.moveInputStarted: {
+                if (!event.piece) {
+                    return false;
+                }
+                const pieceColour = event.piece.charAt(0);
+                const turn = boardTurn(node.state.fen);
+                if (pieceColour !== turn) {
+                    return false;
+                }
+                event.chessboard.removeLegalMovesMarkers();
+                try {
+                    const game = new Chess(node.state.fen);
+                    const moves = game.moves({ square: event.squareFrom, verbose: true });
+                    event.chessboard.addLegalMovesMarkers(moves);
+                    return moves.length > 0;
+                } catch (e) {
+                    console.error("moveInputStarted error:", e);
+                    return false;
+                }
+            }
+            case INPUT_EVENT_TYPE.validateMoveInput: {
+                event.chessboard.removeMarkers(MARKER_TYPE.circleDangerFilled);
+                event.chessboard.removeArrows();
+                event.chessboard.removeLegalMovesMarkers();
+                try {
+                    const game = new Chess(node.state.fen);
+                    const result = game.move({
+                        from: event.squareFrom,
+                        to: event.squareTo,
+                        promotion: "q"
+                    });
+                    if (result) {
+                        return true;
+                    }
+                } catch (e) {
+                    console.error("validateMoveInput error:", e);
+                }
+                return false;
+            }
+            case INPUT_EVENT_TYPE.moveInputFinished: {
+                event.chessboard.removeLegalMovesMarkers();
+                const node = nodeRef.current;
+                const game = new Chess(node.state.fen);
+                try {
+                    const move = game.move({
+                        from: event.squareFrom,
+                        to: event.squareTo,
+                        promotion: "q"
+                    });
+                    if (move) {
+                        onAddMoveRef.current?.(move);
+                    }
+                } catch (e) {
+                    console.error("moveInputFinished error:", e);
+                }
+                return true;
+            }
+            case INPUT_EVENT_TYPE.moveInputCanceled: {
+                event.chessboard.removeLegalMovesMarkers();
+                return true;
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!boardRef.current || boardInstance.current) return;
+
+        const board = new CmChessboard(boardRef.current, {
+            position: node.state.fen,
+            orientation: flipped ? COLOR.black : COLOR.white,
+            responsive: true,
+            assetsUrl: "/lib/chessboard/assets/",
+            assetsCache: false,
+            style: {
+                cssClass: "default",
+                showCoordinates: true,
+                pieces: {
+                    file: "pieces/standard.svg",
+                    tileSize: 40
+                }
+            },
+            extensions: [
+                { class: Markers, props: {} },
+                { class: Arrows, props: {} }
+            ]
+        });
+
+        boardInstance.current = board;
+
+        return () => {
+            board.destroy();
+            boardInstance.current = null;
+        };
+    }, []);
+
+    useEffect(() => {
+        const board = boardInstance.current;
+        if (!board) return;
+
+        board.disableMoveInput();
+        if (piecesDraggable) {
+            board.enableMoveInput(moveHandler);
+        }
+    }, [piecesDraggable, moveHandler]);
+
+    const prevFenRef = useRef(node.state.fen);
+    useEffect(() => {
+        const board = boardInstance.current;
+        if (!board) return;
+        if (prevFenRef.current !== node.state.fen) {
+            prevFenRef.current = node.state.fen;
+            board.setPosition(node.state.fen);
+        }
+    }, [node.state.fen]);
+
+    const prevFlippedRef = useRef(flipped);
+    useEffect(() => {
+        const board = boardInstance.current;
+        if (!board) return;
+        if (prevFlippedRef.current !== flipped) {
+            prevFlippedRef.current = flipped;
+            board.setOrientation(flipped ? COLOR.black : COLOR.white);
+        }
+    }, [flipped]);
+
+    useEffect(() => {
+        const board = boardInstance.current;
+        if (!board) return;
+
+        board.removeArrows();
+        if (arrows && arrows.length > 0) {
+            for (const [from, to] of arrows) {
+                board.addArrow(from, to, ARROW_TYPE.danger);
+            }
+        }
+    }, [arrows]);
+
+    useEffect(() => {
+        const board = boardInstance.current;
+        if (!board) return;
+
+        board.removeMarkers(MARKER_TYPE.frame);
+        board.removeMarkers(MARKER_TYPE.circleDangerFilled);
+
+        const n = nodeRef.current;
+        if (n.state.move?.from && n.state.move?.to) {
+            board.addMarker(MARKER_TYPE.frame, n.state.move.from);
+            board.addMarker(MARKER_TYPE.frame, n.state.move.to);
+        }
+
+        const game = new Chess(n.state.fen);
+        if (game.isCheck()) {
+            const king = findKingSquare(n.state.fen, game.turn());
+            if (king) {
+                board.addMarker(MARKER_TYPE.circleDangerFilled, king);
+            }
+        }
+    }, [node.state.fen]);
+
+    const bottomProfile = flipped ? blackProfile : whiteProfile;
+
+    return (
+        <div className={`${styles.wrapper} ${className}`} style={style}>
+            <div className={styles.boardContainer}>
+                {evaluation && (
+                    <EvaluationBar
+                        evaluation={evaluation}
+                        moveColour={node.state.moveColour}
+                        flipped={flipped}
+                    />
+                )}
+                <div ref={boardRef} style={{ flex: 1, aspectRatio: "1 / 1" }} />
+            </div>
+            <div className={`${styles.bottomProfiles} ${profileClassName}`}>
+                {whiteProfile && (
+                    <div className={styles.profileBlock} style={{ borderRadius: "0 0 0 7px" }}>
+                        <PlayerProfile profile={whiteProfile} />
+                    </div>
+                )}
+                {blackProfile && (
+                    <div className={styles.profileBlock} style={{ borderRadius: "0 0 7px 0" }}>
+                        <PlayerProfile profile={blackProfile} />
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}
+
+export default Board;

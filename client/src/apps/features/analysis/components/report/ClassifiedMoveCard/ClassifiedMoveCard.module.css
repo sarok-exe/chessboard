@@ -1,0 +1,65 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.classificationSection {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 12px;
+
+    border-radius: var(--card-radius);
+    background-color: var(--ui-shade-2);
+    border: 1px solid var(--card-border);
+}
+
+.classification {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.classification > img {
+    width: 30px;
+    height: 30px;
+}
+
+.classificationName {
+    font-size: 1.4rem;
+}
+
+.bestAlternativeComment {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+
+    color: #4fe955
+}
+
+.bestAlternativeMove {
+    padding: 3px;
+
+    border-radius: 5px;
+    text-decoration: underline;
+
+    cursor: pointer;
+    transition-duration: 0.3s;
+}
+
+.bestAlternativeMove:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+.opening {
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+    text-align: center;
+
+    border-radius: 0 0 10px 10px;
+    background-color: #2c2f3596;
+    color: white;
+
+    overflow-wrap: anywhere;
+}

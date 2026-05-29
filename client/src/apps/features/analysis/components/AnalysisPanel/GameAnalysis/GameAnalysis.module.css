@@ -1,0 +1,6 @@
+.stateTreeEditor {
+    background-color: var(--ui-shade-3);
+    border-radius: 10px;
+    padding: 10px 14px;
+    border: 1px solid var(--card-border);
+}

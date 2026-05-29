@@ -1,0 +1,46 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: var(--text-primary);
+}
+
+.profileImage {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 8px;
+    background-color: var(--ui-shade-4);
+}
+
+.placeholderIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+
+    border-radius: 8px;
+    background-color: var(--ui-shade-4);
+    color: var(--text-muted);
+}
+
+.title {
+    padding: 0 6px;
+
+    border-radius: 6px;
+    background-color: rgba(231, 76, 60, 0.25);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.username {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.rating {
+    color: var(--text-muted);
+}

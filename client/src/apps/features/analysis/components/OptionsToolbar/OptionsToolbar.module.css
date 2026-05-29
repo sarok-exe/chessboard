@@ -1,0 +1,29 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+
+    border-radius: var(--card-radius);
+    background-color: var(--ui-shade-4);
+    border: 1px solid var(--card-border);
+}
+
+.backButton {
+    padding: 3px;
+    box-sizing: border-box;
+    width: 52px;
+    height: 52px;
+    position: absolute;
+    left: 0;
+
+    background-color: var(--ui-shade-5);
+}
+
+.optionButton {
+    padding: 6px;
+    width: 52px;
+    height: 52px;
+
+    background-color: var(--ui-shade-4);
+}
