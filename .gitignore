@@ -41,9 +41,5 @@ pnpm-debug.log*
 coverage/
 .lcov*
 
-# Large engine binaries (downloaded at build time)
-client/public/engines/*.wasm
-client/public/engines/stockfish-17-asm.js
-
 # TypeScript
 *.tsbuildinfo

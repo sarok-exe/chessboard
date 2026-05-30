@@ -6,5 +6,16 @@
     "trailingSlash": false,
     "rewrites": [
         { "source": "/(.*)", "destination": "/apps/features/analysis.html" }
+    ],
+    "headers": [
+        {
+            "source": "/(.+\\.wasm)",
+            "headers": [
+                {
+                    "key": "Content-Type",
+                    "value": "application/wasm"
+                }
+            ]
+        }
     ]
 }
