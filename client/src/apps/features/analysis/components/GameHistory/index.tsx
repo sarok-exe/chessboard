@@ -260,7 +260,8 @@ function GameHistory() {
                                                      result === "loss" ? "Loss" :
                                                      result === "draw" ? "Draw" :
                                                      result === "abandoned" ? "Abandoned" : result}
-                                                </td>
+                                                </span>
+                                            </td>
                                             <td>
                                                 <span className={styles.sourceCell}>
                                                     <span className={styles.sourceIcon}>{src.icon}</span>
