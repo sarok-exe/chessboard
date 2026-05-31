@@ -1,16 +1,19 @@
 @font-face {
     font-family: "JetBrains Mono";
     src: url("../public/fonts/jetbrainsmono.ttf");
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Noto Sans";
     src: url("../public/fonts/notosans.ttf");
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Nunito";
-    src: url("../public/fonts/nunito.ttf")
+    src: url("../public/fonts/nunito.ttf");
+    font-display: swap;
 }
 
 :root {

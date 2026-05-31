@@ -24,7 +24,8 @@ function AnalysisProgress() {
         evaluationProgress,
         analysisStatus,
         analysisError,
-        setAnalysisError
+        setAnalysisError,
+        setAnalysisStatus
     } = useAnalysisProgressStore();
 
     const {
@@ -32,7 +33,10 @@ function AnalysisProgress() {
         analysisCaptchaError
     } = useAnalysisSessionStore();
 
-    const analyseGame = useAnalyseGame();
+    const analyseGame = useAnalyseGame((message) => {
+        setAnalysisError(message);
+        setAnalysisStatus(AnalysisStatus.INACTIVE);
+    });
 
     // Tab notification for complete analysis
     useEffect(() => {
