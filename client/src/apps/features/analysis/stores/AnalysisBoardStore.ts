@@ -18,6 +18,13 @@ interface AnalysisBoardStore {
 
     highlightedSquares: string[];
 
+    setCurrentStateTreeNode: (
+        node: StateTreeNode | ((prev: StateTreeNode) => StateTreeNode)
+    ) => void;
+    dispatchCurrentNodeUpdate: () => void;
+    setBoardFlipped: (flipped: boolean) => void;
+    setAutoplayEnabled: (enabled: boolean) => void;
+
     setSelectedSourceSquare: (square?: string) => void;
 
     setPlayableSquares: (squares: string[]) => void;

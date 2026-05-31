@@ -1,67 +1,194 @@
 .wrapper {
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+}
+
+.mainContent {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 28px;
+  max-width: 1180px;
+  margin: 28px auto;
+  padding: 0 20px 40px;
+  align-items: start;
+}
+
+.leftPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rightPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: #242428;
+  border: 1px solid #2e2e34;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.45);
+}
+
+.tabBar {
+  display: flex;
+  border-bottom: 1px solid #2e2e34;
+}
+
+.tab {
+  flex: 1;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  letter-spacing: 0.3px;
+  font-family: inherit;
+}
+
+.tab:hover {
+  color: #ccc;
+  background: rgba(255,255,255,0.03);
+}
+
+.tabActive {
+  color: #fff;
+  background: rgba(232, 28, 46, 0.12);
+  box-shadow: inset 0 -2px 0 #e81c2e;
+}
+
+.gameViewContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 16px 0 16px;
+}
+
+.gameViewPlayers {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  padding: 0 14px;
+  margin-bottom: 16px;
+}
+
+.engineLinesSection {
+  border-bottom: 1px solid #2e2e34;
+  margin-bottom: 16px;
+}
+
+.analysisTabContent {
+  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.reviewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 20px;
+  background: #e81c2e;
+  box-shadow: 0 4px 16px rgba(232, 28, 46, 0.25);
+}
+
+.reviewIcon {
+  font-size: 18px;
+  color: rgba(255,255,255,0.85);
+}
+
+.reviewTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.playersRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 900px) {
+  .mainContent {
+    grid-template-columns: 1fr;
     gap: 20px;
-    padding: 30px 0;
-    width: 100%;
+  }
+
+  .rightPanel {
+    order: -1;
+  }
 }
 
-.advertisement {
-    padding: 0 30px;
+@media (max-width: 560px) {
+  .mainContent {
+    padding: 0 12px 24px;
+    gap: 14px;
+  }
+
+  .gameViewPlayers {
+    gap: 6px;
+    padding: 0 10px;
+  }
+
+  .playersRow {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
-@media (max-width: 500px) {
-    .wrapper {
-        gap: 0;
-        padding: 0;
-    }
+@media (max-width: 480px) {
+  .mainContent {
+    padding: 0 8px 16px;
+    gap: 10px;
+    margin: 8px auto;
+  }
 
-    .advertisement {
-        padding: 0;
-    }
-}
+  .leftPanel {
+    gap: 10px;
+  }
 
-.analysisSection {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    gap: 30px;
-    padding: 0 30px;
-    box-sizing: border-box;
-    width: 100%;
-    height: calc(100vh - 125px);
-}
+  .rightPanel {
+    order: unset;
+    border-radius: 12px;
+  }
 
-@media (max-width: 900px) {
-    .analysisSection {
-        flex-direction: column;
-        justify-content: start;
-        height: auto;
-    }
-}
+  .reviewHeader {
+    padding: 10px 12px;
+    gap: 6px;
+  }
 
-@media (max-width: 500px) {
-    .analysisSection {
-        gap: 0;
-        padding: 0;
-    }
-}
+  .reviewTitle {
+    font-size: 14px;
+  }
 
-.panel {
-    width: 385px;
-    height: 100%;
-}
+  .reviewIcon {
+    font-size: 14px;
+  }
 
-@media (max-width: 900px) {
-    .panel {
-        width: 100%;
-    }
-}
+  .tabBar {
+    font-size: 0;
+  }
 
-@media (max-width: 500px) {
-    .panel {
-        padding-top: 0;
-        
-        border-radius: 0;
-    }
+  .tab {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+
+  .gameViewContent {
+    padding: 8px 0 8px;
+  }
+
+  .gameViewPlayers {
+    gap: 6px;
+    padding: 0 10px;
+    margin-bottom: 10px;
+  }
+
+  .engineLinesSection {
+    margin-bottom: 10px;
+  }
 }

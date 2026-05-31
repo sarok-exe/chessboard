@@ -1,0 +1,24 @@
+.navItem {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+}
+
+.settingsBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: transparent;
+  color: #a0a0b0;
+  border: none;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.settingsBtn:hover {
+  color: #ffffff;
+  background: rgba(255,255,255,0.08);
+}

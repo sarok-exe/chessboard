@@ -1,0 +1,55 @@
+.bubble {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  background: #242428;
+  border: 1px solid #3c3c44;
+  border-left: 4px solid #e81c2e;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.45);
+  animation: slideIn 0.4s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px; height: 38px;
+  background: #2e2e34;
+  border-radius: 50%;
+  font-size: 20px;
+  border: 2px solid #5a5a66;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+}
+
+.pieceIcon {
+  line-height: 1;
+}
+
+.text {
+  flex: 1;
+  font-size: 14px;
+  color: #d0d0dc;
+}
+
+.text strong {
+  color: #ff4d5e;
+  font-weight: 700;
+  font-family: 'Roboto Mono', monospace;
+}
+
+.badge {
+  padding: 3px 10px;
+  background: #2e2e34;
+  border: 1px solid #3c3c44;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Roboto Mono', monospace;
+}

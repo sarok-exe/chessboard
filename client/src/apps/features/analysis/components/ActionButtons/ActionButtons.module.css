@@ -1,0 +1,130 @@
+.buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 0 14px;
+}
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  border: 1px solid;
+  outline: none;
+
+  box-shadow:
+    0 4px 0 rgba(0,0,0,0.4),
+    0 6px 12px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  transform: translateY(0);
+}
+
+.actionBtn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 0 rgba(0,0,0,0.4),
+    0 10px 20px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.actionBtn:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 1px 0 rgba(0,0,0,0.4),
+    0 2px 4px rgba(0,0,0,0.25);
+}
+
+.highlightBtn {
+  background: #2e2e34;
+  color: #d0d0dc;
+  border-color: #3c3c44;
+}
+
+.highlightBtn:hover {
+  background: #3c3c44;
+  color: #ffffff;
+}
+
+.newGameBtn {
+  background: #e81c2e;
+  color: #ffffff;
+  border-color: #b0111f;
+  box-shadow:
+    0 4px 0 #b0111f,
+    0 6px 16px rgba(232,28,46,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+.newGameBtn:hover {
+  background: #ff4d5e;
+  box-shadow:
+    0 6px 0 #b0111f,
+    0 10px 24px rgba(232,28,46,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.newGameBtn:active {
+  box-shadow:
+    0 1px 0 #b0111f,
+    0 2px 6px rgba(232,28,46,0.25);
+}
+
+@media (max-width: 480px) {
+  .buttons {
+    padding: 0 10px;
+    gap: 8px;
+  }
+
+  .actionBtn {
+    padding: 8px 10px;
+    font-size: 12px;
+    border-radius: 10px;
+    box-shadow:
+      0 3px 0 rgba(0,0,0,0.4),
+      0 4px 8px rgba(0,0,0,0.3),
+      inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+
+  .actionBtn:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      0 4px 0 rgba(0,0,0,0.4),
+      0 6px 12px rgba(0,0,0,0.3),
+      inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+
+  .actionBtn:active {
+    transform: translateY(1px);
+    box-shadow:
+      0 1px 0 rgba(0,0,0,0.4),
+      0 2px 4px rgba(0,0,0,0.25);
+  }
+
+  .newGameBtn {
+    box-shadow:
+      0 3px 0 #b0111f,
+      0 4px 10px rgba(232,28,46,0.25),
+      inset 0 1px 0 rgba(255,255,255,0.15);
+  }
+
+  .newGameBtn:hover {
+    box-shadow:
+      0 4px 0 #b0111f,
+      0 8px 16px rgba(232,28,46,0.25),
+      inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+
+  .newGameBtn:active {
+    box-shadow:
+      0 1px 0 #b0111f,
+      0 1px 4px rgba(232,28,46,0.25);
+  }
+}

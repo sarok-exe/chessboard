@@ -55,26 +55,30 @@ function BoardArea() {
         return true;
     }, [gameAnalysisOpen, setGameAnalysisOpen, setActiveTab, setCurrentStateTreeNode, dispatchCurrentNodeUpdate]);
 
-    return <Board
-        className={styles.board}
-        style={{
-            maxWidth: `calc(100vh - ${evaluation ? 195 : 235}px)`
-        }}
-        profileClassName={styles.boardProfile}
-        whiteProfile={analysisGame.players.white}
-        blackProfile={analysisGame.players.black}
-        theme={{
-            lightSquareColour: theme.board.lightSquareColour,
-            darkSquareColour: theme.board.darkSquareColour
-        }}
-        node={currentStateTreeNode}
-        flipped={boardFlipped}
-        evaluation={evaluation}
-        arrows={suggestionArrows}
-        piecesDraggable={!autoplayEnabled}
-        enableClassifications={!settings.classifications.hide}
-        onAddMove={addMove}
-    />;
+    return (
+        <div className={styles.boardWrapper}>
+            <Board
+                className={styles.board}
+                style={{
+                    maxWidth: `calc(100vh - ${evaluation ? 195 : 235}px)`
+                }}
+                profileClassName={styles.boardProfile}
+                whiteProfile={analysisGame.players.white}
+                blackProfile={analysisGame.players.black}
+                theme={{
+                    lightSquareColour: theme.board.lightSquareColour,
+                    darkSquareColour: theme.board.darkSquareColour
+                }}
+                node={currentStateTreeNode}
+                flipped={boardFlipped}
+                evaluation={evaluation}
+                arrows={suggestionArrows}
+                piecesDraggable={!autoplayEnabled}
+                enableClassifications={!settings.classifications.hide}
+                onAddMove={addMove}
+            />
+        </div>
+    );
 }
 
 export default BoardArea;

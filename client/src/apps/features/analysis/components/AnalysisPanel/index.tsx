@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 
 import AnalysisTab from "@analysis/constants/AnalysisTab";
@@ -19,8 +19,6 @@ import GameAnalysis from "./GameAnalysis";
 
 import AnalysisPanelProps from "./AnalysisPanelProps";
 import * as styles from "./AnalysisPanel.module.css";
-
-const OptionsToolbar = lazy(() => import("@analysis/components/OptionsToolbar"));
 
 function AnalysisPanel({
     className,
@@ -45,8 +43,6 @@ function AnalysisPanel({
         style={style}
     >
         <div className={styles.components}>
-            <OptionsToolbar/>
-
             {gameAnalysisOpen && <TabBar/>}
 
             <AnalysisProgress/>
@@ -74,9 +70,11 @@ function AnalysisPanel({
             }
         </div>
 
+        {/* StateTreeTraverser disabled
         <div className={styles.traverserContainer}>
             <StateTreeTraverser className={styles.traverser} />
         </div>
+        */}
     </div>;
 }
 

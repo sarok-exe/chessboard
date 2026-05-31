@@ -27,3 +27,20 @@
 
     background-color: var(--ui-shade-4);
 }
+
+@media (max-width: 480px) {
+    .wrapper {
+        gap: 6px;
+    }
+
+    .backButton {
+        width: 38px;
+        height: 38px;
+    }
+
+    .optionButton {
+        width: 38px;
+        height: 38px;
+        padding: 4px;
+    }
+}

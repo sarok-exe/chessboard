@@ -1,0 +1,13 @@
+[build]
+  command = "npm run build -w shared && npm run build -w client"
+  publish = "client/dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/apps/features/analysis.html"
+  status = 200
+
+[[headers]]
+  for = "*.wasm"
+  [headers.values]
+    Content-Type = "application/wasm"

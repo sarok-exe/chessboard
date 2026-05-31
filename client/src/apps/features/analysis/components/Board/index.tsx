@@ -1,22 +1,25 @@
-import React, { useRef, useCallback, useEffect } from "react";
+import React, { useRef, useCallback, useEffect, useMemo, useState } from "react";
 import { Chess } from "chess.js";
-import { Chessboard as CmChessboard, COLOR, INPUT_EVENT_TYPE } from "@/lib/cm-chessboard/Chessboard.js";
-import { Markers, MARKER_TYPE } from "@/lib/cm-chessboard/extensions/markers/Markers.js";
-import { Arrows, ARROW_TYPE } from "@/lib/cm-chessboard/extensions/arrows/Arrows.js";
+import { Chessboard } from "react-chessboard";
+import type { Square, Piece } from "react-chessboard/dist/chessboard/types";
 import { defaultRootNode } from "shared/constants/utils";
 import PlayerProfile from "@/components/chess/PlayerProfile";
 import EvaluationBar from "../EvaluationBar";
+import { BoardContext } from "./BoardContext";
+import { useSquares } from "./squares/useSquares";
+import { SquaresContext } from "./squares/SquaresContext";
+import { customSquareRenderer } from "./squares/SquareRenderer";
 import BoardProps from "./BoardProps";
 import * as styles from "./Board.module.css";
 
-function findKingSquare(fen: string, color: "w" | "b"): string | null {
+function findKingSquare(fen: string, color: "w" | "b"): Square | null {
     const game = new Chess(fen);
     const board = game.board();
     for (let r = 0; r < 8; r++) {
         for (let f = 0; f < 8; f++) {
             const p = board[r][f];
             if (p && p.type === "k" && p.color === color) {
-                return "abcdefgh"[f] + (8 - r);
+                return ("abcdefgh"[f] + (8 - r)) as Square;
             }
         }
     }
@@ -43,176 +46,128 @@ function Board({
     enableClassifications = true,
     onAddMove
 }: BoardProps) {
-    const boardRef = useRef<HTMLDivElement>(null);
-    const boardInstance = useRef<CmChessboard | null>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [boardWidth, setBoardWidth] = useState(400);
     const nodeRef = useRef(node);
     nodeRef.current = node;
     const onAddMoveRef = useRef(onAddMove);
     onAddMoveRef.current = onAddMove;
 
-    const moveHandler = useCallback((event: any) => {
-        const node = nodeRef.current;
-        switch (event.type) {
-            case INPUT_EVENT_TYPE.moveInputStarted: {
-                if (!event.piece) {
-                    return false;
-                }
-                const pieceColour = event.piece.charAt(0);
-                const turn = boardTurn(node.state.fen);
-                if (pieceColour !== turn) {
-                    return false;
-                }
-                event.chessboard.removeLegalMovesMarkers();
-                try {
-                    const game = new Chess(node.state.fen);
-                    const moves = game.moves({ square: event.squareFrom, verbose: true });
-                    event.chessboard.addLegalMovesMarkers(moves);
-                    return moves.length > 0;
-                } catch (e) {
-                    console.error("moveInputStarted error:", e);
-                    return false;
-                }
-            }
-            case INPUT_EVENT_TYPE.validateMoveInput: {
-                event.chessboard.removeMarkers(MARKER_TYPE.circleDangerFilled);
-                event.chessboard.removeArrows();
-                event.chessboard.removeLegalMovesMarkers();
-                try {
-                    const game = new Chess(node.state.fen);
-                    const result = game.move({
-                        from: event.squareFrom,
-                        to: event.squareTo,
-                        promotion: "q"
-                    });
-                    if (result) {
-                        return true;
-                    }
-                } catch (e) {
-                    console.error("validateMoveInput error:", e);
-                }
-                return false;
-            }
-            case INPUT_EVENT_TYPE.moveInputFinished: {
-                event.chessboard.removeLegalMovesMarkers();
-                const node = nodeRef.current;
-                const game = new Chess(node.state.fen);
-                try {
-                    const move = game.move({
-                        from: event.squareFrom,
-                        to: event.squareTo,
-                        promotion: "q"
-                    });
-                    if (move) {
-                        onAddMoveRef.current?.(move);
-                    }
-                } catch (e) {
-                    console.error("moveInputFinished error:", e);
-                }
-                return true;
-            }
-            case INPUT_EVENT_TYPE.moveInputCanceled: {
-                event.chessboard.removeLegalMovesMarkers();
-                return true;
-            }
-        }
-    }, []);
+    const squares = useSquares();
 
     useEffect(() => {
-        if (!boardRef.current || boardInstance.current) return;
+        const container = containerRef.current;
+        if (!container) return;
 
-        const board = new CmChessboard(boardRef.current, {
-            position: node.state.fen,
-            orientation: flipped ? COLOR.black : COLOR.white,
-            responsive: true,
-            assetsUrl: "/lib/chessboard/assets/",
-            assetsCache: false,
-            style: {
-                cssClass: "default",
-                showCoordinates: true,
-                pieces: {
-                    file: "pieces/standard.svg",
-                    tileSize: 40
-                }
-            },
-            extensions: [
-                { class: Markers, props: {} },
-                { class: Arrows, props: {} }
-            ]
+        const observer = new ResizeObserver(entries => {
+            for (const entry of entries) {
+                setBoardWidth(entry.contentRect.width);
+            }
         });
 
-        boardInstance.current = board;
-
-        return () => {
-            board.destroy();
-            boardInstance.current = null;
-        };
+        observer.observe(container);
+        return () => observer.disconnect();
     }, []);
 
-    useEffect(() => {
-        const board = boardInstance.current;
-        if (!board) return;
+    const handlePieceDragBegin = useCallback((
+        piece: Piece,
+        sourceSquare: Square
+    ) => {
+        const n = nodeRef.current;
+        squares.loadPlayable(n.state.fen, sourceSquare);
+    }, [squares]);
 
-        board.disableMoveInput();
-        if (piecesDraggable) {
-            board.enableMoveInput(moveHandler);
+    const handlePieceDragEnd = useCallback(() => {
+        squares.clearPlayable();
+    }, [squares]);
+
+    const handlePieceDrop = useCallback((
+        sourceSquare: Square,
+        targetSquare: Square,
+        piece: Piece
+    ) => {
+        squares.clearPlayable();
+        const n = nodeRef.current;
+        try {
+            const game = new Chess(n.state.fen);
+            const move = game.move({
+                from: sourceSquare,
+                to: targetSquare,
+                promotion: "q"
+            });
+            if (move) {
+                onAddMoveRef.current?.(move);
+                return true;
+            }
+        } catch {
+            return false;
         }
-    }, [piecesDraggable, moveHandler]);
+        return false;
+    }, [squares]);
 
-    const prevFenRef = useRef(node.state.fen);
-    useEffect(() => {
-        const board = boardInstance.current;
-        if (!board) return;
-        if (prevFenRef.current !== node.state.fen) {
-            prevFenRef.current = node.state.fen;
-            board.setPosition(node.state.fen);
-        }
-    }, [node.state.fen]);
+    const handleSquareClick = useCallback((
+        square: Square,
+        piece: Piece | undefined
+    ) => {
+        const n = nodeRef.current;
 
-    const prevFlippedRef = useRef(flipped);
-    useEffect(() => {
-        const board = boardInstance.current;
-        if (!board) return;
-        if (prevFlippedRef.current !== flipped) {
-            prevFlippedRef.current = flipped;
-            board.setOrientation(flipped ? COLOR.black : COLOR.white);
-        }
-    }, [flipped]);
+        if (!squares.selected && piece) {
+            const pieceColour = piece.charAt(0);
+            const turn = boardTurn(n.state.fen);
+            if (pieceColour !== turn) return;
 
-    useEffect(() => {
-        const board = boardInstance.current;
-        if (!board) return;
-
-        board.removeArrows();
-        if (arrows && arrows.length > 0) {
-            for (const [from, to] of arrows) {
-                board.addArrow(from, to, ARROW_TYPE.danger);
+            squares.setSelected(square);
+            squares.loadPlayable(n.state.fen, square);
+        } else if (squares.selected) {
+            const game = new Chess(n.state.fen);
+            try {
+                const move = game.move({
+                    from: squares.selected,
+                    to: square,
+                    promotion: "q"
+                });
+                if (move) {
+                    squares.setSelected(undefined);
+                    squares.clearPlayable();
+                    onAddMoveRef.current?.(move);
+                }
+            } catch {
+                squares.setSelected(undefined);
+                squares.clearPlayable();
             }
         }
-    }, [arrows]);
+    }, [squares]);
 
-    useEffect(() => {
-        const board = boardInstance.current;
-        if (!board) return;
+    const handleSquareRightClick = useCallback((square: Square) => {
+        squares.toggleHighlight(square);
+    }, [squares]);
 
-        board.removeMarkers(MARKER_TYPE.frame);
-        board.removeMarkers(MARKER_TYPE.circleDangerFilled);
-
+    const customSquareStyles = useMemo((): Record<string, Record<string, string | number>> => {
+        const result: Record<string, Record<string, string | number>> = {};
         const n = nodeRef.current;
-        if (n.state.move?.from && n.state.move?.to) {
-            board.addMarker(MARKER_TYPE.frame, n.state.move.from);
-            board.addMarker(MARKER_TYPE.frame, n.state.move.to);
-        }
 
         const game = new Chess(n.state.fen);
         if (game.isCheck()) {
-            const king = findKingSquare(n.state.fen, game.turn());
-            if (king) {
-                board.addMarker(MARKER_TYPE.circleDangerFilled, king);
+            const kingSquare = findKingSquare(n.state.fen, game.turn());
+            if (kingSquare) {
+                result[kingSquare] = {
+                    boxShadow: "inset 0 0 15px 5px rgba(231,76,60,0.7)"
+                };
             }
         }
+
+        return result;
     }, [node.state.fen]);
 
-    const bottomProfile = flipped ? blackProfile : whiteProfile;
+    const customArrows = useMemo(() => {
+        if (!arrows || arrows.length === 0) return undefined;
+        return arrows as [Square, Square, string][];
+    }, [arrows]);
+
+    const boardOrientation = flipped ? "black" : "white";
+
+    const lightColor = theme?.lightSquareColour || "#ebecd0";
+    const darkColor = theme?.darkSquareColour || "#b58863";
 
     return (
         <div className={`${styles.wrapper} ${className}`} style={style}>
@@ -224,8 +179,37 @@ function Board({
                         flipped={flipped}
                     />
                 )}
-                <div ref={boardRef} style={{ flex: 1, aspectRatio: "1 / 1" }} />
+                <div ref={containerRef} style={{ flex: 1, aspectRatio: "1 / 1" }}>
+                    <BoardContext.Provider value={{ node, enableClassifications }}>
+                        <SquaresContext.Provider value={squares}>
+                            <Chessboard
+                                id="analysis-board"
+                                position={node.state.fen || "start"}
+                                boardOrientation={boardOrientation}
+                                boardWidth={boardWidth}
+                                arePiecesDraggable={piecesDraggable}
+                                onPieceDrop={handlePieceDrop}
+                                onPieceDragBegin={handlePieceDragBegin}
+                                onPieceDragEnd={handlePieceDragEnd}
+                                onSquareClick={handleSquareClick}
+                                onSquareRightClick={handleSquareRightClick}
+                                customSquare={customSquareRenderer}
+                                customSquareStyles={customSquareStyles}
+                                customArrows={customArrows}
+                                customLightSquareStyle={{ backgroundColor: lightColor }}
+                                customDarkSquareStyle={{ backgroundColor: darkColor }}
+                                customBoardStyle={{
+                                    borderRadius: "0"
+                                }}
+                                showBoardNotation={true}
+                                animationDuration={200}
+                                autoPromoteToQueen={true}
+                            />
+                        </SquaresContext.Provider>
+                    </BoardContext.Provider>
+                </div>
             </div>
+            {/* bottom profiles disabled
             <div className={`${styles.bottomProfiles} ${profileClassName}`}>
                 {whiteProfile && (
                     <div className={styles.profileBlock} style={{ borderRadius: "0 0 0 7px" }}>
@@ -238,6 +222,7 @@ function Board({
                     </div>
                 )}
             </div>
+            */}
         </div>
     );
 }

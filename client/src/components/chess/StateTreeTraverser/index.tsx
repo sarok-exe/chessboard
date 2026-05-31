@@ -29,14 +29,8 @@ function StateTreeTraverser({ className, style }: StateTreeTraverserProps) {
     const autoplayIntervalRef = useRef<Interval>();
 
     useEffect(() => {
-        if (autoplayEnabled) {
-            traverseForwards();
-
-            autoplayIntervalRef.current = setInterval(traverseForwards, 1000);
-        } else {
-            clearInterval(autoplayIntervalRef.current);
-        }
-    }, [autoplayEnabled]);
+        return () => clearInterval(autoplayIntervalRef.current);
+    }, []);
 
     function traverseToBeginning() {
         setCurrentStateTreeNode(analysisGame.stateTree);
