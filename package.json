@@ -9,7 +9,7 @@
         "build": "npm run build -w shared && npm run build -w server",
         "bbuild": "npm run build -w shared && npm run build -w server",
         "dev": "npm run build && npm start",
-        "render-build": "cd shared && npm install && npx tsc && npx tsc-alias -f && cd ../server && npm install && npx tsc && npx tsc-alias -f"
+        "render-build": "cd shared && npm install --install-strategy=nested && npx --no-install tsc && npx --no-install tsc-alias -f && cd ../server && npm install --install-strategy=nested && npx --no-install tsc && npx --no-install tsc-alias -f"
     },
     "devDependencies": {
         "@types/lodash-es": "^4.17.12",
