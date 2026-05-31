@@ -147,7 +147,11 @@
     margin: 8px auto;
   }
 
-  .leftPanel {
+.hiddenEngine {
+  display: none;
+}
+
+.leftPanel {
     gap: 10px;
   }
 

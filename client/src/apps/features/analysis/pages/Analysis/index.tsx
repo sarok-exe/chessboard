@@ -4,6 +4,7 @@ import PieceColour from "shared/constants/PieceColour";
 import useGameLoader from "@analysis/hooks/useGameLoader";
 import useAnalysisGameStore from "@analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@analysis/stores/AnalysisBoardStore";
+import useSettingsStore from "@/stores/SettingsStore";
 import NavControls from "@analysis/components/NavControls";
 import PlayerCard from "@analysis/components/PlayerCard";
 import MoveHistory from "@analysis/components/MoveHistory";
@@ -11,6 +12,7 @@ import ActionButtons from "@analysis/components/ActionButtons";
 import AnalysisPanel from "@analysis/components/AnalysisPanel";
 import EngineLinesDisplay from "@analysis/components/EngineLinesDisplay";
 import OptionsToolbar from "@analysis/components/OptionsToolbar";
+import RealtimeEngineArea from "@analysis/components/AnalysisPanel/RealtimeEngineArea";
 
 import BoardArea from "./BoardArea";
 import * as styles from "./Analysis.module.css";
@@ -22,7 +24,10 @@ function Analysis() {
 
     const [activeTab, setActiveTab] = useState<RightTab>("game-view");
 
-    const { analysisGame } = useAnalysisGameStore();
+    const { analysisGame, gameAnalysisOpen } = useAnalysisGameStore();
+    const engineEnabled = useSettingsStore(
+        state => state.settings.analysis.engine.enabled
+    );
 
     useAnalysisBoardStore(state => state.currentStateTreeNodeUpdate);
 
@@ -36,6 +41,12 @@ function Analysis() {
                 </div>
 
                 <div className={styles.rightPanel}>
+                    {activeTab == "game-view" && gameAnalysisOpen && engineEnabled && (
+                        <div className={styles.hiddenEngine}>
+                            <RealtimeEngineArea/>
+                        </div>
+                    )}
+
                     <div className={styles.reviewHeader}>
                         <span className={styles.reviewIcon}>★</span>
                         <h2 className={styles.reviewTitle}>Game Review</h2>
