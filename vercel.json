@@ -5,6 +5,7 @@
     "framework": null,
     "trailingSlash": false,
     "rewrites": [
+        { "source": "/api/(.*)", "destination": "https://chessboard-api.onrender.com/api/$1" },
         { "source": "/(.*)", "destination": "/apps/features/analysis.html" }
     ],
     "headers": [
