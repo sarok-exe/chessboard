@@ -43,3 +43,8 @@ coverage/
 
 # TypeScript
 *.tsbuildinfo
+
+# Engine binaries (large, use lite version)
+client/public/engines/*.wasm
+client/public/engines/*.asm.js
+client/public/engines/stockfish-17-single.js
