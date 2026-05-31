@@ -8,7 +8,8 @@
         "start": "node server/dist/index.js",
         "build": "npm run build -w shared && npm run build -w server",
         "bbuild": "npm run build -w shared && npm run build -w server",
-        "dev": "npm run build && npm start"
+        "dev": "npm run build && npm start",
+        "render-build": "cd shared && npm install && npx tsc && npx tsc-alias -f && cd ../server && npm install && npx tsc && npx tsc-alias -f"
     },
     "devDependencies": {
         "@types/lodash-es": "^4.17.12",
