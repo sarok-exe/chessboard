@@ -1,8 +1,8 @@
 :root {
-  --red-vivid:    #e81c2e;
-  --red-dark:     #b0111f;
-  --red-light:    #ff4d5e;
-  --red-glow:     rgba(232, 28, 46, 0.25);
+  --amber-dark:   #b86e1e;
+  --amber:        #c87e2e;
+  --amber-light:  #e8a03e;
+  --amber-glow:   rgba(232, 160, 62, 0.25);
   --gray-900:     #1a1a1e;
   --gray-800:     #242428;
   --gray-700:     #2e2e34;
@@ -13,6 +13,7 @@
   --gray-100:     #f0f0f5;
   --white:        #ffffff;
   --navbar-h:     60px;
+  --sidebar-w:    200px;
 }
 
 .navbar {
@@ -35,8 +36,8 @@
 
 .logo-icon {
   font-size: 26px;
-  color: var(--red-vivid);
-  filter: drop-shadow(0 0 6px var(--red-glow));
+  color: var(--amber-light);
+  filter: drop-shadow(0 0 6px var(--amber-glow));
 }
 
 .logo-text {
@@ -70,9 +71,9 @@
 }
 
 .nav-link.active {
-  background: var(--red-vivid);
+  background: var(--amber-light);
   color: var(--white);
-  box-shadow: 0 4px 18px rgba(232, 28, 46, 0.4);
+  box-shadow: 0 4px 18px rgba(232, 160, 62, 0.4);
 }
 
 @media (max-width: 560px) {

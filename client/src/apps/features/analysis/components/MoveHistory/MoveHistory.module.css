@@ -41,7 +41,7 @@
 }
 
 .row:hover { background: #2e2e34; }
-.row.active { background: #e81c2e; }
+.row.active { background: #e8a03e; }
 
 .num {
   color: #5a5a66;

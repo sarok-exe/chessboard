@@ -1,0 +1,366 @@
+.wrapper {
+    width: 100%;
+}
+
+.courseGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    padding: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.courseCard {
+    background: #242428;
+    border: 1px solid #2e2e34;
+    border-radius: 16px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: left;
+    font-family: inherit;
+    color: inherit;
+}
+
+.courseCard:hover {
+    border-color: #e8a03e;
+    background: #2a2a2e;
+    transform: translateY(-2px);
+}
+
+.courseName {
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.courseDesc {
+    margin: 0;
+    font-size: 13px;
+    color: #888;
+    line-height: 1.5;
+}
+
+.playLayout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 28px;
+    max-width: 1180px;
+    margin: 28px auto;
+    padding: 0 20px 40px;
+    align-items: start;
+}
+
+.boardSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.boardWrapper {
+    position: relative;
+    transition: box-shadow 0.15s ease;
+    border-radius: 20px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.boardWrapper > * {
+    width: 100%;
+}
+
+.wrongFlash {
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.8), 0 0 20px rgba(231, 76, 60, 0.3);
+}
+
+.controlSection {
+    background: #242428;
+    border: 1px solid #2e2e34;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.45);
+}
+
+.puzzleHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.puzzleTitle {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.progress {
+    font-size: 12px;
+    color: #888;
+    white-space: nowrap;
+    padding-top: 2px;
+}
+
+.courseSelect,
+.puzzleNav {
+    width: 100%;
+}
+
+.courseDropdown,
+.puzzleDropdown {
+    width: 100%;
+    padding: 8px 10px;
+    background: #1a1a1e;
+    border: 1px solid #2e2e34;
+    border-radius: 8px;
+    color: #ccc;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.courseDropdown:focus,
+.puzzleDropdown:focus {
+    outline: none;
+    border-color: #e8a03e;
+}
+
+.userColorBox {
+    background: #1a1a1e;
+    border: 1px solid #2e2e34;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #ccc;
+}
+
+.userColorBox strong {
+    color: #fff;
+}
+
+.commentBox {
+    background: #1a1a1e;
+    border: 1px solid #2e2e34;
+    border-radius: 8px;
+    padding: 12px 14px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.commentLine {
+    margin: 0 0 6px;
+    font-size: 13px;
+    color: #aaa;
+    line-height: 1.5;
+}
+
+.commentLine:last-child {
+    margin-bottom: 0;
+}
+
+.revealBox {
+    background: rgba(232, 160, 62, 0.1);
+    border: 1px solid rgba(232, 160, 62, 0.3);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #e8a03e;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.hintBtn,
+.retryBtn,
+.nextBtn {
+    flex: 1;
+    min-width: 80px;
+    padding: 10px 14px;
+    border: 1px solid #2e2e34;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: inherit;
+}
+
+.hintBtn {
+    background: rgba(241, 196, 15, 0.12);
+    color: #f1c40f;
+    border-color: rgba(241, 196, 15, 0.3);
+}
+
+.hintBtn:hover {
+    background: rgba(241, 196, 15, 0.2);
+}
+
+.retryBtn {
+    background: #1a1a1e;
+    color: #ccc;
+}
+
+.retryBtn:hover {
+    background: #2a2a2e;
+}
+
+.nextBtn {
+    background: rgba(46, 204, 113, 0.12);
+    color: #2ecc71;
+    border-color: rgba(46, 204, 113, 0.3);
+}
+
+.nextBtn:hover {
+    background: rgba(46, 204, 113, 0.2);
+}
+
+.hintFlash {
+    animation: hintPulse 0.3s ease-in-out 3;
+}
+
+@keyframes hintPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+@media (max-width: 900px) {
+    .playLayout {
+        grid-template-columns: 1fr;
+    }
+
+    .boardSection > * {
+        max-width: min(100%, calc(100vh - 90px)) !important;
+    }
+
+    .courseGrid {
+        grid-template-columns: 1fr;
+        padding: 16px;
+    }
+}
+
+@media (max-width: 560px) {
+    .playLayout {
+        padding: 0 12px 24px;
+        gap: 14px;
+    }
+
+    .courseGrid {
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .courseCard {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .playLayout {
+        padding: 0 8px 16px;
+        gap: 10px;
+        margin: 8px auto;
+    }
+
+    .controlSection {
+        padding: 14px;
+        border-radius: 12px;
+        gap: 10px;
+    }
+
+    .puzzleTitle {
+        font-size: 14px;
+    }
+
+    .courseGrid {
+        padding: 8px;
+        gap: 10px;
+    }
+
+    .courseCard {
+        padding: 14px;
+        border-radius: 12px;
+    }
+
+    .courseName {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 375px) {
+    .playLayout {
+        padding: 0 6px 12px;
+        gap: 8px;
+        margin: 4px auto;
+    }
+
+    .controlSection {
+        padding: 10px;
+        border-radius: 10px;
+        gap: 8px;
+    }
+
+    .puzzleTitle {
+        font-size: 13px;
+    }
+
+    .puzzleHeader {
+        flex-direction: column;
+    }
+
+    .courseDropdown,
+    .puzzleDropdown {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+
+    .userColorBox {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+
+    .commentBox {
+        padding: 8px 10px;
+        max-height: 140px;
+    }
+
+    .commentLine {
+        font-size: 12px;
+    }
+
+    .hintBtn,
+    .retryBtn,
+    .nextBtn {
+        padding: 8px 10px;
+        font-size: 12px;
+        min-width: 60px;
+    }
+
+    .courseGrid {
+        padding: 6px;
+        gap: 8px;
+    }
+
+    .courseCard {
+        padding: 12px;
+        border-radius: 10px;
+    }
+
+    .courseName {
+        font-size: 13px;
+    }
+
+    .courseDesc {
+        font-size: 12px;
+    }
+}

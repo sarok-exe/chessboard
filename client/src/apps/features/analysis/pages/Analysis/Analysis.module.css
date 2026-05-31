@@ -1,3 +1,14 @@
+.withSidebar {
+  display: flex;
+  min-height: calc(100vh - var(--navbar-h, 60px));
+}
+
+.sidebarContent {
+  flex: 1;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
 .wrapper {
   width: 100%;
 }
@@ -54,8 +65,8 @@
 
 .tabActive {
   color: #fff;
-  background: rgba(232, 28, 46, 0.12);
-  box-shadow: inset 0 -2px 0 #e81c2e;
+  background: rgba(232, 160, 62, 0.12);
+  box-shadow: inset 0 -2px 0 #e8a03e;
 }
 
 .gameViewContent {
@@ -91,8 +102,8 @@
   justify-content: center;
   gap: 10px;
   padding: 16px 20px;
-  background: #e81c2e;
-  box-shadow: 0 4px 16px rgba(232, 28, 46, 0.25);
+  background: #e8a03e;
+  box-shadow: 0 4px 16px rgba(232, 160, 62, 0.25);
 }
 
 .reviewIcon {
@@ -140,6 +151,40 @@
   }
 }
 
+.hiddenEngine {
+  display: none;
+}
+
+.profilePlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #8a8a98;
+  text-align: center;
+  gap: 12px;
+}
+
+.profilePlaceholder h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.profilePlaceholder p {
+  font-size: 14px;
+  color: #8a8a98;
+  margin: 0;
+}
+
+.profileIcon {
+  font-size: 48px;
+  line-height: 1;
+  color: #e8a03e;
+}
+
 @media (max-width: 480px) {
   .mainContent {
     padding: 0 8px 16px;
@@ -147,11 +192,7 @@
     margin: 8px auto;
   }
 
-.hiddenEngine {
-  display: none;
-}
-
-.leftPanel {
+  .leftPanel {
     gap: 10px;
   }
 

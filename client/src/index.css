@@ -17,8 +17,8 @@
 }
 
 :root {
-    --ui-blue: #e74c3c;
-    --ui-red: #e74c3c;
+    --ui-blue: #e8a03e;
+    --ui-red: #e8a03e;
     --ui-lavender: #a0785b;
     --ui-shade-1: #1a1a1a;
     --ui-shade-2: #242424;
@@ -30,8 +30,8 @@
 
     --rt-color-dark: #111 !important;
 
-    --bg: #1a1a1a;
-    --card-bg: #242424;
+    --bg: #1a1a1e;
+    --card-bg: #242428;
     --card-border: rgba(255,255,255,0.07);
     --card-radius: 16px;
     --btn-radius: 12px;
@@ -40,16 +40,16 @@
     --text-secondary: #b0aea8;
     --text-muted: #807e78;
 
-    --accent: #e74c3c;
-    --accent-hover: #f05a4a;
-    --accent-lighter: #f07060;
-    --accent-gradient: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-    --accent-glow: 0 4px 15px rgba(231, 76, 60, 0.25);
+    --accent: #e8a03e;
+    --accent-hover: #f0b050;
+    --accent-lighter: #f8c060;
+    --accent-gradient: linear-gradient(135deg, #e8a03e 0%, #c87e2e 100%);
+    --accent-glow: 0 4px 15px rgba(232, 160, 62, 0.25);
 
     --surface-bg: #2a2a2a;
     --surface-border: rgba(255,255,255,0.07);
 
-    --board-glow: 0 0 30px rgba(231, 76, 60, 0.12);
+    --board-glow: 0 0 30px rgba(232, 160, 62, 0.12);
     --header-h: 56px;
     --content-gap: 16px;
 
@@ -137,7 +137,7 @@ html, body {
 
 .btn-accent:hover {
     filter: brightness(1.08);
-    box-shadow: 0 4px 16px rgba(231, 76, 60, 0.35);
+    box-shadow: 0 4px 16px rgba(232, 160, 62, 0.35);
 }
 
 .btn-secondary {
@@ -159,7 +159,7 @@ input:focus,
 textarea:focus,
 .btn:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.3), 0 0 16px rgba(231, 76, 60, 0.12);
+    box-shadow: 0 0 0 3px rgba(232, 160, 62, 0.3), 0 0 16px rgba(232, 160, 62, 0.12);
 }
 
 body {
@@ -300,5 +300,5 @@ body {
     to { stroke-dashoffset: -13; }
 }
 .cm-chessboard .arrow-danger .arrow-line {
-    filter: drop-shadow(0 0 3px rgba(231,76,60,0.5));
+    filter: drop-shadow(0 0 3px rgba(232,160,62,0.5));
 }
