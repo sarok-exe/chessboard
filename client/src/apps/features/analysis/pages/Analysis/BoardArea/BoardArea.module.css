@@ -9,16 +9,22 @@
   min-width: 0;
 }
 
-@media (max-width: 900px) {
+@media (min-width: 901px) {
   .board {
-    width: min(100%, calc(100vh - 190px));
+    max-width: min(60vw, 540px);
   }
 }
 
-@media (max-width: 500px) {
-  .boardProfile {
-    width: 100%;
-    border-radius: 0 !important;
+@media (max-width: 900px) {
+  .board {
+    max-width: min(100%, 520px);
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .board {
+    max-width: min(100%, 380px);
   }
 }
 
@@ -29,6 +35,7 @@
 
   .board {
     flex: 0 1 auto;
-    width: min(100%, 300px);
+    width: min(85vw, 300px);
+    margin: 0 auto;
   }
 }

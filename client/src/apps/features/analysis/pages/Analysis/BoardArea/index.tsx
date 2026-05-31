@@ -59,10 +59,6 @@ function BoardArea() {
         <div className={styles.boardWrapper}>
             <Board
                 className={styles.board}
-                style={{
-                    maxWidth: `calc(100vh - ${evaluation ? 195 : 235}px)`
-                }}
-                profileClassName={styles.boardProfile}
                 whiteProfile={analysisGame.players.white}
                 blackProfile={analysisGame.players.black}
                 theme={{
