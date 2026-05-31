@@ -3,6 +3,9 @@
         "build": "webpack && cp -r public/* dist/",
         "check": "tsc --noEmit"
     },
+    "dependencies": {
+        "firebase": "^10.14.1"
+    },
     "devDependencies": {
         "@babel/core": "^7.24.6",
         "@babel/preset-env": "^7.24.6",
